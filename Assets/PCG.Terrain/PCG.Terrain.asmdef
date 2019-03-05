@@ -1,0 +1,18 @@
+﻿{
+    "name": "PCG.Terrain",
+    "references": [
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
+        "Unity.Rendering.Hybrid",
+        "Unity.Collections",
+        "Unity.Jobs",
+        "Unity.Mathematics",
+        "Unity.Burst"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

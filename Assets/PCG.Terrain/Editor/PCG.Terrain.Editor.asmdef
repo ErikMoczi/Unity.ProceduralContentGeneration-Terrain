@@ -1,0 +1,12 @@
+﻿{
+    "name": "PCG.Terrain.Editor",
+    "references": [
+        "PCG.Terrain"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
