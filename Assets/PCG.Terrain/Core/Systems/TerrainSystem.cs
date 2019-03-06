@@ -15,7 +15,7 @@ using UnityEngine.Assertions;
 
 namespace PCG.Terrain.Core.Systems
 {
-    [UpdateBefore(typeof(RenderMeshSystem))]
+    [UpdateBefore(typeof(RenderMeshSystemV2))]
     [UpdateBefore(typeof(EndFrameTransformSystem))]
     public sealed class TerrainSystem : BaseSystem
     {

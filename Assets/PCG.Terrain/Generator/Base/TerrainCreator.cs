@@ -109,16 +109,15 @@ namespace PCG.Terrain.Generator.Base
             ScriptBehaviourUpdateOrder.UpdatePlayerLoop(World.Active);
             CreateDefaultWorld();
 
-            _system.Init<RenderingSystemBootstrap>(false);
+            _system.Init<RenderMeshSystemV2>();
             _system.Init<RenderBoundsUpdateSystem>();
             _system.Init<EndFrameTransformSystem>();
-            _system.Get<RenderMeshSystem>();
 
             DefineSetUpSystems(_system);
 
             _system.Get<EndFrameTransformSystem>();
             _system.Get<RenderBoundsUpdateSystem>();
-            _system.Get<RenderMeshSystem>();
+            _system.Get<RenderMeshSystemV2>();
 
             DefinePostSetUpSystems(_system);
 

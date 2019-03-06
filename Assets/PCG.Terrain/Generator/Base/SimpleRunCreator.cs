@@ -15,7 +15,7 @@ namespace PCG.Terrain.Generator.Base
         {
             base.DefinePostSetUpSystems(system);
             system.Go<EndFrameTransformSystem>();
-            system.Go<RenderMeshSystem>();
+            system.Go<RenderMeshSystemV2>();
             system.Go<RenderBoundsUpdateSystem>();
         }
 
