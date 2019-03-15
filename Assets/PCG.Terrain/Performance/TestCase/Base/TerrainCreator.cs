@@ -4,7 +4,7 @@ using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
 
-namespace PCG.Terrain.Generator.Base
+namespace PCG.Terrain.Performance.TestCase.Base
 {
     public abstract class TerrainCreator : ITerrainCreator
     {
@@ -12,7 +12,6 @@ namespace PCG.Terrain.Generator.Base
         {
             T Init<T>(bool runUpdate = true, params object[] constructorArguments) where T : ComponentSystemBase;
             T Get<T>(bool runUpdate = true) where T : ComponentSystemBase;
-            T Go<T>() where T : ComponentSystemBase;
         }
 
         #region EcsSystemProxy
@@ -21,13 +20,11 @@ namespace PCG.Terrain.Generator.Base
         {
             void Clear();
             void Run();
-            void RunUncontrolled();
         }
 
         private sealed class EcsSystemProxy : IInternalEcsSystemProxy
         {
             private readonly List<ComponentSystemBase> _systems = new List<ComponentSystemBase>();
-            private readonly List<ComponentSystemBase> _systemsUncontrolled = new List<ComponentSystemBase>();
 
             public T Init<T>(bool runUpdate = true, params object[] constructorArguments)
                 where T : ComponentSystemBase
@@ -55,15 +52,6 @@ namespace PCG.Terrain.Generator.Base
                 return system;
             }
 
-            public T Go<T>()
-                where T : ComponentSystemBase
-            {
-                var system = World.Active.GetExistingManager<T>();
-                system.Enabled = false;
-                _systemsUncontrolled.Add(system);
-                return system;
-            }
-
             public void Run()
             {
                 // ReSharper disable once ForCanBeConvertedToForeach
@@ -75,19 +63,9 @@ namespace PCG.Terrain.Generator.Base
                 }
             }
 
-            public void RunUncontrolled()
-            {
-                // ReSharper disable once ForCanBeConvertedToForeach
-                for (var i = 0; i < _systemsUncontrolled.Count; i++)
-                {
-                    _systemsUncontrolled[i].Enabled = true;
-                }
-            }
-
             public void Clear()
             {
                 _systems.Clear();
-                _systemsUncontrolled.Clear();
             }
         }
 
@@ -122,7 +100,6 @@ namespace PCG.Terrain.Generator.Base
             DefinePostSetUpSystems(_system);
 
             _system.Run();
-            _system.RunUncontrolled();
             _system.Clear();
 
             ScriptBehaviourUpdateOrder.UpdatePlayerLoop(World.Active);
@@ -133,7 +110,6 @@ namespace PCG.Terrain.Generator.Base
             DefineRunSystems(_system);
             DefinePostRunSystems(_system);
             _system.Run();
-            _system.RunUncontrolled();
         }
 
         public void CleanUp()

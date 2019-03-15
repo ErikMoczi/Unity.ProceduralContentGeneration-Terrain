@@ -1,4 +1,4 @@
-namespace PCG.Terrain.Generator.Base
+namespace PCG.Terrain.Performance.TestCase.Base
 {
     public interface ITerrainCreator
     {

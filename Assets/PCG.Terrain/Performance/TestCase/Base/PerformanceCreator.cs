@@ -1,6 +1,6 @@
 using PCG.Terrain.Settings;
 
-namespace PCG.Terrain.Generator.Base
+namespace PCG.Terrain.Performance.TestCase.Base
 {
     public class PerformanceCreator : TerrainCreator
     {
