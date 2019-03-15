@@ -1,7 +1,7 @@
-﻿{
-    "name": "PCG.Terrain.Editor",
+{
+    "name": "UniRx.Async.Editor",
     "references": [
-        "PCG.Terrain"
+        "UniRx.Async"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
