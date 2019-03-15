@@ -9,7 +9,9 @@
         "Unity.Collections",
         "Unity.Jobs",
         "Unity.Mathematics",
-        "Unity.Burst"
+        "Unity.Burst",
+        "NaughtyAttributes.Core",
+        "UniRx"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

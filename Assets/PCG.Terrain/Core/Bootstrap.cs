@@ -1,5 +1,4 @@
-using PCG.Terrain.Common.Extensions;
-using PCG.Terrain.Core.Systems;
+using JetBrains.Annotations;
 using PCG.Terrain.Settings;
 using Unity.Entities;
 using Unity.Rendering;
@@ -10,13 +9,15 @@ namespace PCG.Terrain.Core
 {
     public static class Bootstrap
     {
-        private const string TerrainSettingsAsset = "TerrainSettings";
+        private static TerrainSystemManager _terrainSystemManager;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void InitializeBeforeSceneLoad()
         {
             var world = new World("Terrain experiment");
             World.Active = world;
+
+            _terrainSystemManager = new TerrainSystemManager(world);
 
             PlayerLoopManager.RegisterDomainUnload(DomainUnloadShutdown, 10000);
             world.CreateManager<EntityManager>();
@@ -25,27 +26,28 @@ namespace PCG.Terrain.Core
             world.CreateManager<RenderMeshSystemV2>();
             world.CreateManager<EndFrameTransformSystem>();
             world.CreateManager<CopyTransformFromGameObjectSystem>();
+        }
 
-            var terrainSettings = LoadTerrainSettings();
-            world.OneHopLifetime<CreateSystem>(terrainSettings);
-            world.OneHopLifetime<InitSystem>(terrainSettings);
-            world.CreateManager<TerrainSystem>(terrainSettings);
-            
-            ScriptBehaviourUpdateOrder.UpdatePlayerLoop(world);
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void InitializeAfterSceneLoad()
+        {
+            var terrainController = Object.FindObjectOfType<TerrainController>();
+            _terrainSystemManager.InitConfiguration(terrainController.TerrainSettings);
+        }
+
+        public static void LoadNewConfiguration([NotNull] ITerrainSettings terrainSettings)
+        {
+            _terrainSystemManager.InitConfiguration(terrainSettings);
         }
 
         private static void DomainUnloadShutdown()
         {
+            _terrainSystemManager.Dispose();
             World.DisposeAllWorlds();
 
             WordStorage.Instance.Dispose();
             WordStorage.Instance = null;
             ScriptBehaviourUpdateOrder.UpdatePlayerLoop();
-        }
-
-        private static ITerrainSettings LoadTerrainSettings()
-        {
-            return Resources.Load<TerrainSettings>(TerrainSettingsAsset);
         }
     }
 }
