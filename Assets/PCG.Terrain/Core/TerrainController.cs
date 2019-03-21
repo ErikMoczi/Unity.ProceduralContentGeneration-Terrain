@@ -137,6 +137,13 @@ namespace PCG.Terrain.Core
         {
             #region LocalFunctions
 
+            void SliderValueValidation()
+            {
+                chunkCountUI.Slider.onValueChanged.AsObservable().Subscribe(
+                    value => { chunksPerFrameUI.Slider.maxValue = value; }
+                );
+            }
+
             void DefaultSliderValueSettings()
             {
                 resolutionUI.OnValueChangedSetText(
@@ -302,6 +309,7 @@ namespace PCG.Terrain.Core
 
             #endregion
 
+            SliderValueValidation();
             DefaultSliderValueSettings();
             LoadDefaultTerrainSettings();
             ObservableSubscribe();
