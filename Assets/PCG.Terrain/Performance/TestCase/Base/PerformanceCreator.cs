@@ -1,3 +1,4 @@
+using PCG.Terrain.Core.Systems;
 using PCG.Terrain.Settings;
 
 namespace PCG.Terrain.Performance.TestCase.Base
@@ -8,14 +9,10 @@ namespace PCG.Terrain.Performance.TestCase.Base
         {
         }
 
-        protected sealed override void DefinePostSetUpSystems(IEcsSystemProxy system)
+        protected override void DefineCleanupSystems(IEcsSystemProxy system)
         {
-            base.DefinePostSetUpSystems(system);
-        }
-
-        protected sealed override void DefinePostRunSystems(IEcsSystemProxy system)
-        {
-            base.DefinePostRunSystems(system);
+            base.DefineCleanupSystems(system);
+            system.Init<CleanUpSystem>();
         }
     }
 }

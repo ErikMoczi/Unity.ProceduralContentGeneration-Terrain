@@ -12,6 +12,9 @@ namespace PCG.Terrain.Performance
     [TestFixture(typeof(TestInitRun))]
     [TestFixture(typeof(TestTerrainInit))]
     [TestFixture(typeof(TestTerrainRun))]
+    [TestFixture(typeof(GeneralCreateSystem))]
+    [TestFixture(typeof(FirstGenerateSystem))]
+    [TestFixture(typeof(SecondGenerateSystem))]
     public sealed class TerrainConstruction<TTerrainCreator> : BaseTestTerrain<TTerrainCreator>
         where TTerrainCreator : class, ITerrainCreator
     {

@@ -4,7 +4,9 @@
         "Unity.PerformanceTesting",
         "PCG.Terrain",
         "Unity.Entities",
+        "Unity.Entities.Hybrid",
         "Unity.Transforms",
+        "Unity.Transforms.Hybrid",
         "Unity.Rendering.Hybrid"
     ],
     "optionalUnityReferences": [

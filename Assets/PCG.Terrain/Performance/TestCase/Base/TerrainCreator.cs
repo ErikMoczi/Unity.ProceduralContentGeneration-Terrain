@@ -3,6 +3,7 @@ using PCG.Terrain.Settings;
 using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace PCG.Terrain.Performance.TestCase.Base
 {
@@ -89,11 +90,15 @@ namespace PCG.Terrain.Performance.TestCase.Base
 
             _system.Init<RenderMeshSystemV2>();
             _system.Init<RenderBoundsUpdateSystem>();
+            _system.Init<CopyTransformFromGameObjectSystem>();
             _system.Init<EndFrameTransformSystem>();
+            _system.Init<EndFrameBarrier>();
 
             DefineSetUpSystems(_system);
 
+            _system.Get<EndFrameBarrier>();
             _system.Get<EndFrameTransformSystem>();
+            _system.Get<CopyTransformFromGameObjectSystem>();
             _system.Get<RenderBoundsUpdateSystem>();
             _system.Get<RenderMeshSystemV2>();
 
@@ -115,7 +120,14 @@ namespace PCG.Terrain.Performance.TestCase.Base
         public void CleanUp()
         {
             _system.Clear();
+            DefineCleanupSystems(_system);
+            _system.Run();
+            _system.Clear();
+
             World.DisposeAllWorlds();
+
+            AfterCleanup();
+
             ScriptBehaviourUpdateOrder.UpdatePlayerLoop(World.Active);
         }
 
@@ -132,6 +144,14 @@ namespace PCG.Terrain.Performance.TestCase.Base
         }
 
         protected virtual void DefineRunSystems(IEcsSystemProxy system)
+        {
+        }
+
+        protected virtual void DefineCleanupSystems(IEcsSystemProxy system)
+        {
+        }
+
+        protected virtual void AfterCleanup()
         {
         }
 
